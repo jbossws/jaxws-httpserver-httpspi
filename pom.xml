@@ -89,7 +89,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Djava.endorsed.dirs=${basedir}/target/endorsed</argLine>
+          <argLine>-Djava.endorsed.dirs=${basedir}/target/endorsed -Djava.util.logging.config.file=${basedir}/src/test/resources/etc/logging.properties</argLine>
         </configuration>
       </plugin> 
     </plugins>
