@@ -36,6 +36,6 @@ public class HttpServerContextFactory
 {
    public static HttpContext createHttpContext(HttpServer server, String contextPath, String path)
    {
-      return new HttpContextDelegate(server.createContext(contextPath), path);
+      return new HttpContextDelegate(server.createContext(contextPath + path), path);
    }
 }
