@@ -108,7 +108,34 @@ public class EndpointAPITest extends Assert
          invokeEndpoint(address);
 
          endpoint.stop();
-         server.removeContext(contextPath);
+         server.removeContext(contextPath + path);
+      }
+   }
+   
+   @Test
+   public void testMultipleEndpointsSameContext() throws Exception
+   {
+      server.start();
+      String contextPath = "/ctxt";
+      String path = "/echo";
+      int k = 3;
+      Endpoint[] endpoints = new Endpoint[k];
+      HttpContext[] contexts = new HttpContext[k];
+      String[] addresses = new String[k];
+      for (int i = 0; i < k; i++)
+      {
+         addresses[i] = "http://localhost:" + currentPort + contextPath + path + i;
+         contexts[i] = HttpServerContextFactory.createHttpContext(server, contextPath, path + i);
+         endpoints[i] = Endpoint.create(new EndpointBean());
+         endpoints[i].publish(contexts[i]);
+      }
+      for (int i = 0; i < k; i++)
+      {
+         invokeEndpoint(addresses[i]);
+      }
+      for (int i = 0; i < k; i++)
+      {
+         endpoints[i].stop();
       }
    }
 
