@@ -21,14 +21,14 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.9-SNAPSHOT</version>
+    <version>1.0.9.GA</version>
   </parent>
   
   <!-- Properties -->
   <properties>
     <jaxws.version>1.0.0.Beta1</jaxws.version>
     <junit.version>4.8.1</junit.version>
-    <cxf.version>2.3.0-SNAPSHOT</cxf.version>
+    <cxf.version>2.3.0</cxf.version>
     <servlet-api.version>1.0.0.Beta2</servlet-api.version>
   </properties>
 
