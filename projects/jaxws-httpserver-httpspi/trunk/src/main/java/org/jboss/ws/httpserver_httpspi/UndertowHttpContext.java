@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,62 +21,55 @@
  */
 package org.jboss.ws.httpserver_httpspi;
 
-import java.util.Map;
+import io.undertow.server.handlers.PathHandler;
+
 import java.util.Set;
 
 import javax.xml.ws.spi.http.HttpContext;
 import javax.xml.ws.spi.http.HttpHandler;
 
 /**
- * A javax.xml.ws.spi.http.HttpContext that delegates
- * to a com.sun.net.httpserver.HttpContext instance.
- * 
- * @author alessio.soldano@jboss.com
- * @since 22-Aug-2010
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
-public class HttpContextDelegate extends HttpContext
+//TODO:Look at HttpHandlerImpl - avoid to create duplicate UndertowHttpContext to publish endpoint
+public class UndertowHttpContext extends HttpContext
 {
-   private com.sun.net.httpserver.HttpContext delegate;
+   private String handlerpath;
+   private PathHandler pathHandler;
    private String path;
 
-   public HttpContextDelegate(com.sun.net.httpserver.HttpContext delegate, String path)
+   public UndertowHttpContext(PathHandler pathHandler, String contextPath, String path)
    {
-      this.delegate = delegate;
+      this.pathHandler = pathHandler;
       this.path = path;
-   }
-
-   @Override
-   public String getPath()
-   {
-      return path;
-   }
-
-   @Override
-   public Object getAttribute(String name)
-   {
-      Map<String, Object> map = delegate.getAttributes();
-      return map != null ? map.get(name) : null;
-   }
-
-   @Override
-   public Set<String> getAttributeNames()
-   {
-      Map<String, Object> map = delegate.getAttributes();
-      return map != null ? map.keySet() : null;
+      this.handlerpath = contextPath + path;
    }
 
    @Override
    public void setHandler(HttpHandler handler)
    {
-      if (handler instanceof com.sun.net.httpserver.HttpHandler)
-      {
-         delegate.setHandler((com.sun.net.httpserver.HttpHandler) handler);
-      }
-      else
-      {
-         delegate.setHandler(new HttpHandlerDelegate(handler));
-      }
+      pathHandler.addExactPath(handlerpath, new UndertowHttpHandler(handler));
+   }
+
+   @Override
+   public String getPath()
+   {
+      return this.path;
+   }
+
+   @Override
+   public Object getAttribute(String name)
+   {
+      // TODO 
+      return null;
+   }
+
+   @Override
+   public Set<String> getAttributeNames()
+   {
+      // TODO 
+      return null;
    }
 
 }

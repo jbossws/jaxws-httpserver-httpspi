@@ -45,7 +45,6 @@ import com.sun.net.httpserver.HttpsServer;
  * @since 22-Aug-2010
  *
  */
-@SuppressWarnings("restriction")
 public class HttpExchangeDelegate extends HttpExchange
 {
    private com.sun.net.httpserver.HttpExchange delegate;

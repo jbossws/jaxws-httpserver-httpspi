@@ -30,6 +30,7 @@
     <junit.version>4.8.1</junit.version>
     <cxf.version>2.3.0</cxf.version>
     <servlet-api.version>1.0.0.Beta2</servlet-api.version>
+    <io.undertow.version>1.0.0.Beta30</io.undertow.version>
   </properties>
 
   <!-- Dependencies -->
@@ -39,6 +40,19 @@
        <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
        <version>${jaxws.version}</version>
     </dependency> 
+
+    <dependency>
+       <groupId>io.undertow</groupId>
+       <artifactId>undertow-core</artifactId>
+       <version>${io.undertow.version}</version>
+       <exclusions>
+           <exclusion>
+               <groupId>io.undertow</groupId>
+               <artifactId>undertow-build-config</artifactId>
+           </exclusion>
+       </exclusions>
+   </dependency>
+
   
     <!-- test dependencies -->
     <dependency>
