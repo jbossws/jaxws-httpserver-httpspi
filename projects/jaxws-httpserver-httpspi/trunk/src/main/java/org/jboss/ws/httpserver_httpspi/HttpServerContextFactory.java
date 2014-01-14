@@ -21,9 +21,8 @@
  */
 package org.jboss.ws.httpserver_httpspi;
 
-import javax.xml.ws.spi.http.HttpContext;
-
 import com.sun.net.httpserver.HttpServer;
+import javax.xml.ws.spi.http.HttpContext;
 
 /**
  * A factory for building JDK6 httpserver' flavor of 
@@ -32,15 +31,11 @@ import com.sun.net.httpserver.HttpServer;
  * @since 22-Aug-2010
  *
  */
+@SuppressWarnings("restriction")
 public class HttpServerContextFactory
 {
    public static HttpContext createHttpContext(HttpServer server, String contextPath, String path)
    {
       return new HttpContextDelegate(server.createContext(contextPath + path), path);
-   }
-   
-   public static HttpContext createHttpContext(UndertowServer server, String contextPath, String path)
-   {
-     return new UndertowHttpContext(server.getPathHandler(), contextPath, path); 
    }
 }

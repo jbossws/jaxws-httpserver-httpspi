@@ -25,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.URL;
 
 import javax.activation.DataHandler;
@@ -48,24 +49,25 @@ import org.junit.Test;
  * @since 22-Aug-2010
  *
  */
+@SuppressWarnings("restriction")
 public class EndpointAPITest extends Assert
 {
 
    private static int currentPort = 9876;
 
-   private UndertowServer server;
+   private com.sun.net.httpserver.HttpServer server;
 
    @Before
    public void setUp() throws IOException
    {
       currentPort++;
-      server = new UndertowServer(currentPort, "localhost");
+      server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(currentPort), 0);
    }
 
    @After
    public void tearDown()
    {
-      server.stop();
+      server.stop(0);
       server = null;
    }
 
@@ -106,6 +108,7 @@ public class EndpointAPITest extends Assert
          invokeEndpoint(address);
 
          endpoint.stop();
+         server.removeContext(contextPath + path);
       }
    }
    

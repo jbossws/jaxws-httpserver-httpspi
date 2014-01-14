@@ -44,11 +44,6 @@ public class PathUtils
       return getPathInternal(addr.getPath());
    }
    
-   public static String getPathFromRequest(String requestPath)
-   {
-      return getPathInternal(requestPath);
-   }
-
    private static String getPathInternal(String rawpath)
    {
       String path = removeTrailingSlash(rawpath);
@@ -69,11 +64,6 @@ public class PathUtils
    public static String getContextPath(String addr)
    {
       return getContextPathInternal(getPathFromString(addr));
-   }
-   
-   public static String getContextPathFromRequest(String requestPath)
-   {
-      return getContextPathInternal(requestPath);
    }
    
    public static String getContextPath(URI addr)
@@ -106,7 +96,7 @@ public class PathUtils
       return path;
    }
    
-   public static String removeTrailingSlash(String path)
+   private static String removeTrailingSlash(String path)
    {
       if (path != null && path.length() > 0 && path.lastIndexOf('/') == path.length() - 1)
       {
