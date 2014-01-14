@@ -35,6 +35,7 @@ import javax.xml.ws.spi.http.HttpHandler;
  * @since 22-Aug-2010
  *
  */
+@SuppressWarnings("restriction")
 public class HttpContextDelegate extends HttpContext
 {
    private com.sun.net.httpserver.HttpContext delegate;
