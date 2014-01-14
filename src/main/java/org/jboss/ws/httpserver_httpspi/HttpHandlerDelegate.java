@@ -34,7 +34,6 @@ import com.sun.net.httpserver.HttpHandler;
  * @sine 22-Aug-2010
  *
  */
-@SuppressWarnings("restriction")
 public class HttpHandlerDelegate implements HttpHandler {
 
    private javax.xml.ws.spi.http.HttpHandler delegate;

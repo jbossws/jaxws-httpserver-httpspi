@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,26 +21,49 @@
  */
 package org.jboss.ws.httpserver_httpspi;
 
-import javax.xml.ws.spi.http.HttpContext;
-
-import com.sun.net.httpserver.HttpServer;
+import io.undertow.Undertow;
+import io.undertow.Undertow.Builder;
+import io.undertow.server.handlers.BlockingHandler;
+import io.undertow.server.handlers.PathHandler;
 
 /**
- * A factory for building JDK6 httpserver' flavor of 
- * 
- * @author alessio.soldano@jboss.com
- * @since 22-Aug-2010
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
-public class HttpServerContextFactory
+public class UndertowServer
 {
-   public static HttpContext createHttpContext(HttpServer server, String contextPath, String path)
+   private Builder builder;
+   private PathHandler pathHandler;
+   private Undertow undertow;
+
+   public UndertowServer(int port, String host)
    {
-      return new HttpContextDelegate(server.createContext(contextPath + path), path);
+      builder = Undertow.builder().addListener(port, host);
+      pathHandler = new PathHandler();
    }
-   
-   public static HttpContext createHttpContext(UndertowServer server, String contextPath, String path)
+
+   public Builder getBuilder()
    {
-     return new UndertowHttpContext(server.getPathHandler(), contextPath, path); 
+      return builder;
    }
+
+   public PathHandler getPathHandler()
+   {
+      return pathHandler;
+   }
+
+   public void start()
+   {
+      undertow = builder.setHandler(new BlockingHandler(pathHandler)).build();
+      undertow.start();
+   }
+
+   public void stop()
+   {
+      if (undertow != null)
+      {
+         undertow.stop();
+      }
+   }
+
 }
